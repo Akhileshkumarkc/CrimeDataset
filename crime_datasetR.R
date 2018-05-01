@@ -33,33 +33,29 @@ myDataClean = na.omit(myData)
 as.factor(myData$fold)
 as.factor(myData$state)
 # remove all missing data columns.
-myDataPred[,c(2,3,c(101:117),c(121:124),126)] =NULL
-
+myDataClean[,c(2,3,c(101:117),c(121:124),126)] =NULL
+dim(myDataClean)
 ####################################################################
 # lets do a PCA part 1
 myData2 = model.matrix(ViolentCrimesPerPop ~. -1, data = myDataClean)
 
 head(myData2)
 pcaCredit = prcomp(myData2,scale.=TRUE)
-plot(pcaCredit$x[1:2000])
-head(pcaCredit$x)
 pcaVar = pcaCredit$sdev^2
 pve=pcaVar/sum(pcaVar)
 plot(pve)
 plot(cumsum (pve ), xlab=" Principal Component ", ylab ="
      Cumulative Proportion of Variance Explained ", ylim=c(0,1) ,
      type='b')
-# around 50 PCA explain the 90% Variance.
-# around 40 PCA explain the 86% variance.
-# lets take 40 PCA>
+# around 20 PCA explain the 90% Variance.
+# lets take 20 PCA.
+pca_20_attr = pcaCredit$x[,1:20]
+combined_data = as.data.frame(cbind(pca_20_attr,myDataClean$ViolentCrimesPerPop))
 
+# Take a 75 - 25 split.
+set.seed(101)
+sample <- sample.int(n = nrow(combined_data), size = floor(.75*nrow(combined_data)), replace = F)
+train <- combined_data[sample, ]
+test  <- combined_data[-sample, ]
+summary(test)
 
-####################################################################################3
-# lets do a PCA part 2
-myDataPred = myDataClean[,-127]
-myDataPred
-# removing all the ? columns.
-myDataPred[,c(2,3,c(101:117),c(121:124),126)] =NULL
-dim(myDataPred)
-cc_PCA = prcomp(myDataPred, scale. = TRUE, center = TRUE)
-plot(cc_PCA)
