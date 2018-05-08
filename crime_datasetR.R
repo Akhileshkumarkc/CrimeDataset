@@ -4,7 +4,7 @@
 # 1. Akhilesh Kumar Kagalvadi Chinnaswamy (axk167131)
 # 2. Shalin Anilkumar Amin (saa161030)
 # 3. Saikrishna Kanukuntla (sxk160432)
-# 4. Nanditha Valasaraj (nxv160930)
+# 4. Nanditha Valsaraj (nxv160930)
 ##################################################################
 # Crime Dataset contains 127 attribute, with target attribute ViolentCrimesPerPop.
 # This is carried out in following steps:
